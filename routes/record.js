@@ -40,22 +40,13 @@ recordRoutes.route("/approve_status").get(function (req, res) {
     message: "Error",
   };
   let startTime = Math.floor(Date.now() / 1000);
-  var interval = setInterval(() => {
-    db_connect
-      .collection("approval-status")
-      .find({})
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-        let response = res;
-      });
-    let endTime = Math.floor(Date.now() / 1000);
-    let time = endTime - startTime;
-    if (response?.length > 0 || time > 15) {
-      clearInterval(interval);
-      return response;
-    }
-  }, 1000);
+  db_connect
+    .collection("approval-status")
+    .find({})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
 });
 
 module.exports = recordRoutes;
